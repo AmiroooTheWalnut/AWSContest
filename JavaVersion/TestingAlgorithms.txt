@@ -1,0 +1,49 @@
+1 GaussianProcesses
+2 LinearRegression
+3 MultilayerPerceptron
+4 SMOreg
+5 IBk
+6 KStar
+7 LWL
+8 AdditiveRegression
+
+Bagging		9 BayesNet
+		10 GaussianProcesses
+		11 LinearRegression
+		12 Logistic
+		13 MultilayerPerceptron
+		14 SGD
+		15 SMO
+		16 AdaBoostM1	DecisionStump
+		17 LogitBoost	DecisionStump
+		18 JRip
+		19 OneR
+		20 PART
+
+CVParameterSelection
+
+IterativeClassifierOptimizer
+
+MultiScheme
+
+RandomCommittee	21 RandomTree
+		22 GaussianProcesses
+		23 LinearRegression
+		24 Logistic
+		25 MultilayerPerceptron
+
+Stacking	26 GaussianProcesses + LinearRegression + Logistic
+		27 RandomForest + GaussianProcesses
+
+Vote		28 GaussianProcesses + LinearRegression + Logistic
+		29 RandomForest + GaussianProcesses
+
+30 DecisionTable
+31 M5Rules
+32 ZeroR
+HoltWinter	TS
+33 DecisionStump
+34 M5P
+35 RandomForest
+36 RandomTree
+37 REPTree
