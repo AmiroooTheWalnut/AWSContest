@@ -128,7 +128,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jList1);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -164,7 +164,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -603,14 +603,13 @@ public class MainFrame extends javax.swing.JFrame {
             int numStepsToForecast = 1;
             List<List<NumericPrediction>> forecast = forecaster.forecast(numStepsToForecast, System.out);
 //            List<List<NumericPrediction>> forecast=forecaster.forecast(1, new Instances(RealDemands,0,currentMonthIndex+1));
-            forecaster.primeForecaster(a);
 
             double forecastedValues[] = getPredictionForNextMonth(forecast, numStepsToForecast);
 //            success = true;
 //            System.out.println(success);
 //            System.out.println(forecastedValues[1]);
             double rangeMidToHighConfidenceInterval=forecastedValues[0]-forecastedValues[1];
-            double offset=rangeMidToHighConfidenceInterval/3.0;
+            double offset=rangeMidToHighConfidenceInterval/0.6;
             return forecastedValues[0]+offset;
         } catch (Exception ex) {
             ex.printStackTrace();
