@@ -5,9 +5,12 @@
  */
 package javaversion;
 
+
+import arima.ARIMA;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -86,6 +90,8 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        
+        testARMA();
 
     }
 
@@ -991,7 +997,6 @@ public class MainFrame extends javax.swing.JFrame {
             lagMaker.setMaxLag(12);
             lagMaker.setAddMonthOfYear(true);
             lagMaker.setAddQuarterOfYear(true);
-            Instances a = new Instances(RealDemands, 0, currentMonthIndex + 1);
             int knownPart = Math.max(currentMonthIndex + 1, 18);
             forecaster.buildForecaster(new Instances(RealDemands, 0, knownPart), System.out);
             forecaster.primeForecaster(new Instances(RealDemands, 0, currentMonthIndex + 1));
@@ -1061,6 +1066,51 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
         return minIndex;
+    }
+    
+    public void testARMA()
+    {
+//        TimeSeries timeSeries = TestData.debitcards;
+//        ArimaOrder modelOrder = ArimaOrder.order(0, 1, 1, 0, 1, 1);
+//        Arima model = Arima.model(timeSeries, modelOrder);
+//        
+//        System.out.println(model.aic()); // Get and display the model AIC
+//        System.out.println(model.coefficients()); // Get and display the estimated coefficients
+//        System.out.println(java.util.Arrays.toString(model.stdErrors()));
+//        plot(model.predictionErrors());
+//        
+//        Forecast forecast = model.forecast(12);
+//        
+//        System.out.println(forecast);
+        
+        Scanner ino = null;
+
+        try {
+            ArrayList<Double> arraylist = new ArrayList<Double>();
+            ino = new Scanner(new File(System.getProperty("user.dir") + "/data/ceshidata.txt"));
+            while (ino.hasNext()) {
+                arraylist.add(Double.parseDouble(ino.next()));
+            }
+            double[] dataArray = new double[arraylist.size() - 1];
+            for (int i = 0; i < arraylist.size() - 1; i++) {
+                dataArray[i] = arraylist.get(i);
+            }
+
+            //System.out.println(arraylist.size());
+            ARIMA arima = new ARIMA(dataArray);
+
+            int[] model = arima.getARIMAmodel();
+            System.out.println("Best model is [p,q]=" + "[" + model[0] + " " + model[1] + "]");
+            System.out.println("Predict value=" + arima.aftDeal(arima.predictValue(model[0], model[1])));
+            System.out.println("Predict error=" + (arima.aftDeal(arima.predictValue(model[0], model[1])) - arraylist.get(arraylist.size() - 1)) / arraylist.get(arraylist.size() - 1) * 100 + "%");
+
+            //	String[] str = (String[])list1.toArray(new String[0]);	
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            ino.close();
+        }
     }
 
     /**

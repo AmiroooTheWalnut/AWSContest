@@ -12,6 +12,7 @@ import weka.classifiers.Classifier;
  * @author user
  */
 public class MyClassifier {
+    String type;
     Classifier classifier;
     String name;
 }
