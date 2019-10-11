@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -73,6 +74,8 @@ public class MainFrame extends javax.swing.JFrame {
     MyClassifier algorithms[];
     Result results[];
     Result sortedResults[];
+    
+    ArrayList<Double[]> estimationOfAlgorithmsDemands=new ArrayList();
 
     XYSeries estimatedDataset;
     XYSeries realDataset;
@@ -102,6 +105,22 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable5 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,6 +153,166 @@ public class MainFrame extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Inventory Level", jPanel2);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable2);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Inventory cost", jPanel3);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(jTable3);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Back order", jPanel4);
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane6.setViewportView(jTable4);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Back order cost", jPanel5);
+
+        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane7.setViewportView(jTable5);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Order amount", jPanel6);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,9 +324,11 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 889, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -164,7 +345,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1))
+                    .addComponent(jTabbedPane1))
                 .addContainerGap())
         );
 
@@ -234,7 +416,7 @@ public class MainFrame extends javax.swing.JFrame {
                 ChartPanel panel = new ChartPanel(chart);
                 panel.setBounds(0, 0, jPanel1.getWidth(), jPanel1.getHeight());
                 jPanel1.add(panel);
-                
+
             } catch (IOException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -243,7 +425,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        runAllAlgorithms();
+//        runAllAlgorithmsSeparately();
+        runAllAlgorithmsSimultanously();
 
 ////\/\/\/ LAST MONTH
 //                month = 120;
@@ -274,8 +457,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
-        if(jList1.getSelectedIndex()>-1)
-        {
+        if (jList1.getSelectedIndex() > -1) {
             int selectedAlgorithm = Integer.valueOf(jList1.getSelectedValue().split(" ")[0]);
             String string = "Algorithm name: " + results[selectedAlgorithm].algorithmName + System.lineSeparator();
             string = string + "Total cost: " + results[selectedAlgorithm].totalCost + System.lineSeparator();
@@ -284,7 +466,30 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jList1ValueChanged
 
-    public void runAllAlgorithms() {
+    public void runAllAlgorithmsSimultanously() {
+        setupForcastingAlgorithms();
+        results = new Result[1];
+        results[0] = new Result();
+        results[0].algorithmName = "Algorithm shift on demand " + "Not done ";
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < results.length; i++) {
+                    results[i] = testSimultanousAlgorithm(algorithms);
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshGUI();
+                        }
+                    });
+                }
+            }
+        });
+        thread.start();
+    }
+    
+    public void runAllAlgorithmsSeparately() {
         setupForcastingAlgorithms();
         results = new Result[algorithms.length];
         for (int i = 0; i < algorithms.length; i++) {
@@ -296,7 +501,7 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void run() {
                 for (int i = 0; i < algorithms.length; i++) {
-                    results[i] = testOneAlgoritm(algorithms[i]);
+                    results[i] = testOneAlgoritmSeparately(algorithms[i]);
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
@@ -321,7 +526,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
 
-        sortedResults=deepClone(results);
+        sortedResults = deepClone(results);
         Arrays.sort(sortedResults);
         jList1.setModel(new javax.swing.AbstractListModel() {
             @Override
@@ -335,8 +540,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
-
-    public Result testOneAlgoritm(MyClassifier classifier) {
+    
+    public Result testSimultanousAlgorithm(MyClassifier classifiers[]){
         double EstimatedDemands[] = new double[RealDemands.numInstances()];
         double InventoryLevel[] = new double[RealDemands.numInstances()];
         double InventoryCost[] = new double[RealDemands.numInstances()];
@@ -356,11 +561,75 @@ public class MainFrame extends javax.swing.JFrame {
         for (int month = 0; month < 119; month++) {
             //\/\/\/ BEGINGIN OF MONTH
             //\/\/\/ ESTIMATE DEMAND
-            EstimatedDemands[month + 1] = estimateNextMonthDemand(month, classifier.classifier);
-            if(EstimatedDemands[month + 1]==-1)
-            {
+            EstimatedDemands[month + 1] = estimateNextMonthDemandSimultanously(month, classifiers);
+            //^^^ ESTIMATE DEMAND
+            if (InventoryLevel[month] <= RealDemands.get(month).value(2) + BackOrder[month]) {
+                BackOrder[month + 1] = (RealDemands.get(month).value(2) + BackOrder[month]) - InventoryLevel[month];
+                InventoryLevel[month] = 0;
+                OrderAmount[month] = EstimatedDemands[month + 1] + BackOrder[month + 1] - InventoryLevel[month];
+            } else if (InventoryLevel[month] > RealDemands.get(month).value(2) + BackOrder[month]) {
+                InventoryLevel[month] = InventoryLevel[month] - (RealDemands.get(month).value(2) + BackOrder[month]);
+                BackOrder[month + 1] = 0;
+                OrderAmount[month] = EstimatedDemands[month + 1] + BackOrder[month + 1] - InventoryLevel[month];
+            }
+
+            //^^^ BEGINGIN OF MONTH
+            //\/\/\/ END OF MONTH
+            if (InventoryLevel[month] < 90) {
+                InventoryCost[month] = InventoryLevel[month] * 1;
+                TotalCost = TotalCost + InventoryCost[month];
+            } else {
+                InventoryCost[month] = InventoryLevel[month] * 2;
+                TotalCost = TotalCost + InventoryCost[month];
+            }
+            BackOrderCost[month] = BackOrder[month] * 3;
+            TotalCost = TotalCost + BackOrderCost[month];
+            InventoryLevel[month + 1] = InventoryLevel[month] + OrderAmount[month];
+            //^^^ END OF MONTH
+        }
+        Result result = new Result();
+        result.EstimatedDemands = EstimatedDemands;
+        result.BackOrder = BackOrder;
+        result.InventoryCost = InventoryCost;
+        result.totalCost = TotalCost;
+        result.InventoryLevel = InventoryLevel;
+        result.OrderAmount = OrderAmount;
+        result.averageBackOrderCost = getMean(BackOrderCost);
+        result.averageInventoryCost = getMean(InventoryCost);
+        result.algorithmName = "0 Mixed";
+
+        if (Double.isNaN(result.totalCost) == true) {
+            result.algorithmName = "0 Mixed" + "_FAILED";
+            result.totalCost = 1000000000;
+        }
+
+        return result;
+    }
+
+    public Result testOneAlgoritmSeparately(MyClassifier classifier) {
+        double EstimatedDemands[] = new double[RealDemands.numInstances()];
+        double InventoryLevel[] = new double[RealDemands.numInstances()];
+        double InventoryCost[] = new double[RealDemands.numInstances()];
+        double OrderAmount[] = new double[RealDemands.numInstances()];
+        double BackOrder[] = new double[RealDemands.numInstances() + 1];
+        double BackOrderCost[] = new double[RealDemands.numInstances()];
+        for (int month = 0; month < RealDemands.numInstances(); month++) {
+            EstimatedDemands[month] = 0;
+            InventoryLevel[month] = 0;
+            InventoryCost[month] = 0;
+            OrderAmount[month] = 0;
+            BackOrder[month] = 0;
+        }
+        InventoryLevel[0] = 60;
+        double TotalCost = 0;
+
+        for (int month = 0; month < 119; month++) {
+            //\/\/\/ BEGINGIN OF MONTH
+            //\/\/\/ ESTIMATE DEMAND
+            EstimatedDemands[month + 1] = estimateNextMonthDemandSeparately(month, classifier.classifier);
+            if (EstimatedDemands[month + 1] == -1) {
                 Result result = new Result();
-                result.algorithmName = classifier.name+"_FAILED";
+                result.algorithmName = classifier.name + "_FAILED";
                 return result;
             }
             //^^^ ESTIMATE DEMAND
@@ -385,7 +654,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
             BackOrderCost[month] = BackOrder[month] * 3;
             TotalCost = TotalCost + BackOrderCost[month];
-            InventoryLevel[month + 1] = OrderAmount[month];
+            InventoryLevel[month + 1] = InventoryLevel[month] + OrderAmount[month];
             //^^^ END OF MONTH
         }
         Result result = new Result();
@@ -398,22 +667,19 @@ public class MainFrame extends javax.swing.JFrame {
         result.averageBackOrderCost = getMean(BackOrderCost);
         result.averageInventoryCost = getMean(InventoryCost);
         result.algorithmName = classifier.name;
-        
-        if(Double.isNaN(result.totalCost)==true)
-        {
-            result.algorithmName=classifier.name+"_FAILED";
-            result.totalCost=1000000000;
+
+        if (Double.isNaN(result.totalCost) == true) {
+            result.algorithmName = classifier.name + "_FAILED";
+            result.totalCost = 1000000000;
         }
 
         return result;
     }
-    
-    public Result[] deepClone(Result inputResults[])
-    {
-        Result outputResults[]=new Result[inputResults.length];
-        for(int i=0;i<inputResults.length;i++)
-        {
-            outputResults[i]=new Result(inputResults[i].algorithmName,inputResults[i].totalCost,inputResults[i].averageInventoryCost,inputResults[i].averageBackOrderCost,inputResults[i].EstimatedDemands,inputResults[i].InventoryLevel,inputResults[i].InventoryCost,inputResults[i].OrderAmount,inputResults[i].BackOrder);
+
+    public Result[] deepClone(Result inputResults[]) {
+        Result outputResults[] = new Result[inputResults.length];
+        for (int i = 0; i < inputResults.length; i++) {
+            outputResults[i] = new Result(inputResults[i].algorithmName, inputResults[i].totalCost, inputResults[i].averageInventoryCost, inputResults[i].averageBackOrderCost, inputResults[i].EstimatedDemands, inputResults[i].InventoryLevel, inputResults[i].InventoryCost, inputResults[i].OrderAmount, inputResults[i].BackOrder);
         }
         return outputResults;
     }
@@ -570,17 +836,147 @@ public class MainFrame extends javax.swing.JFrame {
         algorithms[36].name = "36 REPTree";
     }
 
-    public double getMean(double input[]) {
-        double output = 0;
-        for (int i = 0; i < input.length; i++) {
-            output = input[i];
+
+    public Double[] makeOneMonthEstimationForAllAlgorithms(int currentMonthIndex) {
+        Double output[]=new Double[algorithms.length];
+        for (int i = 0; i < algorithms.length; i++) {
+            WekaForecaster forecaster = new WekaForecaster();
+            TSLagMaker lagMaker = forecaster.getTSLagMaker();
+
+            try {
+                forecaster.setFieldsToForecast("Demand");
+                forecaster.setCalculateConfIntervalsForForecasts(1);
+                forecaster.setBaseForecaster(algorithms[i].classifier);
+                lagMaker.setTimeStampField("Month");
+                lagMaker.setMinLag(1);
+                lagMaker.setMaxLag(12);
+                lagMaker.setAddMonthOfYear(true);
+                lagMaker.setAddQuarterOfYear(true);
+                Instances a = new Instances(RealDemands, 0, currentMonthIndex + 1);
+                int knownPart = Math.max(currentMonthIndex + 1, 18);
+                forecaster.buildForecaster(new Instances(RealDemands, 0, knownPart), System.out);
+                forecaster.primeForecaster(new Instances(RealDemands, 0, currentMonthIndex + 1));
+
+                int numStepsToForecast = 1;
+                List<List<NumericPrediction>> forecast = forecaster.forecast(numStepsToForecast, System.out);
+//            List<List<NumericPrediction>> forecast=forecaster.forecast(1, new Instances(RealDemands,0,currentMonthIndex+1));
+
+                double forecastedValues[] = getPredictionForNextMonth(forecast, numStepsToForecast);
+//            success = true;
+//            System.out.println(success);
+//            System.out.println(forecastedValues[1]);
+                double rangeMidToHighConfidenceInterval = forecastedValues[0] - forecastedValues[1];
+                double offset = rangeMidToHighConfidenceInterval / 0.6;
+                output[i] = forecastedValues[0] + offset;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                String msg = ex.getMessage().toLowerCase();
+                if (msg.indexOf("not in classpath") > -1) {
+                    output[i]=new Double(-1);
+                }
+            }
         }
-        return output / input.length;
+        return output;
     }
     
+    public double estimateNextMonthDemandSimultanously(int currentMonthIndex,MyClassifier classifiers[])
+    {
+        Double generatedDemands[]=makeOneMonthEstimationForAllAlgorithms(currentMonthIndex);
+        estimationOfAlgorithmsDemands.add(generatedDemands);
+        BestAlgorithm bestAlgorithm = getBestSimultanousAlgorithmUntilNow(estimationOfAlgorithmsDemands,currentMonthIndex);
+        System.out.println("Time: "+currentMonthIndex);
+        System.out.println("Current classifier: "+classifiers[bestAlgorithm.index].name);
+        return estimateNextMonthDemandSeparately(currentMonthIndex,classifiers[bestAlgorithm.index].classifier);
+    }
     
+    public BestAlgorithm getBestSimultanousAlgorithmUntilNow(ArrayList<Double[]> estimations,int currentMonthIndex)
+    {
+        double costs[]=new double[algorithms.length];
+        for (int i = 0; i < algorithms.length; i++) {
+            double estimatesForOneAlgorithm[]=new double[estimationOfAlgorithmsDemands.size()];
+            for (int j = 0; j < estimationOfAlgorithmsDemands.size(); j++) {
+                if(estimations.get(j)[i]!=null)
+                {
+                    if(!Double.isNaN(estimations.get(j)[i]))
+                    {
+                        estimatesForOneAlgorithm[j]=estimations.get(j)[i];
+                    }else{
+                        estimatesForOneAlgorithm[j]=Double.POSITIVE_INFINITY;
+                    }
+                }else{
+                    estimatesForOneAlgorithm[j]=Double.POSITIVE_INFINITY;
+                }
+            }
+            double mean=getMean(estimatesForOneAlgorithm);
+            for (int j = 0; j < estimatesForOneAlgorithm.length; j++) {
+                if(estimatesForOneAlgorithm[j]==-1)
+                {
+                    estimatesForOneAlgorithm[j]=mean;
+                }
+            }
+            costs[i]=getCostUntilCurrentTime(estimatesForOneAlgorithm,currentMonthIndex);
+        }
+        int bestIndex=getMinIndex(costs);
+        return new BestAlgorithm(bestIndex,costs[bestIndex]);
+    }
+    
+    public class BestAlgorithm
+    {
+        public int index;
+        public double cost;
+        BestAlgorithm(int passed_Index,double passed_cost)
+        {
+            index=passed_Index;
+            cost=passed_cost;
+        }
+    }
+    
+    public double getCostUntilCurrentTime(double estimations[],int currentMonthIndex)
+    {
+        double InventoryLevel[] = new double[RealDemands.numInstances()];
+        double InventoryCost[] = new double[RealDemands.numInstances()];
+        double OrderAmount[] = new double[RealDemands.numInstances()];
+        double BackOrder[] = new double[RealDemands.numInstances() + 1];
+        double BackOrderCost[] = new double[RealDemands.numInstances()];
+        for (int month = 0; month < RealDemands.numInstances(); month++) {
+            InventoryLevel[month] = 0;
+            InventoryCost[month] = 0;
+            OrderAmount[month] = 0;
+            BackOrder[month] = 0;
+        }
+        InventoryLevel[0] = 60;
+        double TotalCost = 0;
+        
+        for (int month = 0; month < currentMonthIndex; month++) {
+            //\/\/\/ BEGINGIN OF MONTH
+            if (InventoryLevel[month] <= RealDemands.get(month).value(2) + BackOrder[month]) {
+                BackOrder[month + 1] = (RealDemands.get(month).value(2) + BackOrder[month]) - InventoryLevel[month];
+                InventoryLevel[month] = 0;
+                OrderAmount[month] = estimations[month + 1] + BackOrder[month + 1] - InventoryLevel[month];
+            } else if (InventoryLevel[month] > RealDemands.get(month).value(2) + BackOrder[month]) {
+                InventoryLevel[month] = InventoryLevel[month] - (RealDemands.get(month).value(2) + BackOrder[month]);
+                BackOrder[month + 1] = 0;
+                OrderAmount[month] = estimations[month + 1] + BackOrder[month + 1] - InventoryLevel[month];
+            }
 
-    public double estimateNextMonthDemand(int currentMonthIndex, Classifier classifer) {
+            //^^^ BEGINGIN OF MONTH
+            //\/\/\/ END OF MONTH
+            if (InventoryLevel[month] < 90) {
+                InventoryCost[month] = InventoryLevel[month] * 1;
+                TotalCost = TotalCost + InventoryCost[month];
+            } else {
+                InventoryCost[month] = InventoryLevel[month] * 2;
+                TotalCost = TotalCost + InventoryCost[month];
+            }
+            BackOrderCost[month] = BackOrder[month] * 3;
+            TotalCost = TotalCost + BackOrderCost[month];
+            InventoryLevel[month + 1] = InventoryLevel[month] + OrderAmount[month];
+            //^^^ END OF MONTH
+        }
+        return TotalCost;
+    }
+
+    public double estimateNextMonthDemandSeparately(int currentMonthIndex, Classifier classifer) {
 //        boolean success = false;
 
         WekaForecaster forecaster = new WekaForecaster();
@@ -595,10 +991,10 @@ public class MainFrame extends javax.swing.JFrame {
             lagMaker.setMaxLag(12);
             lagMaker.setAddMonthOfYear(true);
             lagMaker.setAddQuarterOfYear(true);
-            Instances a = new Instances(RealDemands,0,currentMonthIndex+1);
-            int knownPart=Math.max(currentMonthIndex+1, 18);
-            forecaster.buildForecaster(new Instances(RealDemands,0,knownPart), System.out);
-            forecaster.primeForecaster(new Instances(RealDemands,0,currentMonthIndex+1));
+            Instances a = new Instances(RealDemands, 0, currentMonthIndex + 1);
+            int knownPart = Math.max(currentMonthIndex + 1, 18);
+            forecaster.buildForecaster(new Instances(RealDemands, 0, knownPart), System.out);
+            forecaster.primeForecaster(new Instances(RealDemands, 0, currentMonthIndex + 1));
 
             int numStepsToForecast = 1;
             List<List<NumericPrediction>> forecast = forecaster.forecast(numStepsToForecast, System.out);
@@ -608,9 +1004,9 @@ public class MainFrame extends javax.swing.JFrame {
 //            success = true;
 //            System.out.println(success);
 //            System.out.println(forecastedValues[1]);
-            double rangeMidToHighConfidenceInterval=forecastedValues[0]-forecastedValues[1];
-            double offset=rangeMidToHighConfidenceInterval/0.6;
-            return forecastedValues[0]+offset;
+            double rangeMidToHighConfidenceInterval = forecastedValues[0] - forecastedValues[1];
+            double offset = rangeMidToHighConfidenceInterval / 1.1;
+            return forecastedValues[0] + offset;
         } catch (Exception ex) {
             ex.printStackTrace();
             String msg = ex.getMessage().toLowerCase();
@@ -637,6 +1033,34 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
         return output;
+    }
+    
+    public double getMean(double input[]) {
+        double output = 0;
+        int counter=0;
+        for (int i = 0; i < input.length; i++) {
+            if(input[i]>=0)
+            {
+                output = input[i];
+                counter=counter+1;
+            }
+        }
+        return output / counter;
+    }
+    
+    public int getMinIndex(double input[])
+    {
+        double minValue=input[0];
+        int minIndex=0;
+        for(int i=1;i<input.length;i++)
+        {
+            if(input[i]<minValue)
+            {
+                minValue=input[i];
+                minIndex=i;
+            }
+        }
+        return minIndex;
     }
 
     /**
@@ -679,8 +1103,24 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable5;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
