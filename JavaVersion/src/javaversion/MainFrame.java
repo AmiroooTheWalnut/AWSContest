@@ -5,13 +5,13 @@
  */
 package javaversion;
 
-
 import arima.ARIMA;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -49,6 +49,7 @@ import weka.classifiers.meta.AdditiveRegression;
 import weka.classifiers.meta.Bagging;
 import weka.classifiers.meta.LogitBoost;
 import weka.classifiers.meta.RandomCommittee;
+import weka.classifiers.meta.RegressionByDiscretization;
 import weka.classifiers.meta.Stacking;
 import weka.classifiers.meta.Vote;
 import weka.classifiers.rules.DecisionTable;
@@ -65,6 +66,7 @@ import weka.classifiers.trees.RandomForest;
 import weka.classifiers.trees.RandomTree;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
+import weka.estimators.UnivariateKernelEstimator;
 import weka.filters.supervised.attribute.TSLagMaker;
 
 /**
@@ -78,8 +80,8 @@ public class MainFrame extends javax.swing.JFrame {
     MyClassifier algorithms[];
     Result results[];
     Result sortedResults[];
-    
-    ArrayList<Double[]> estimationOfAlgorithmsDemands=new ArrayList();
+
+    ArrayList<Double[]> estimationOfAlgorithmsDemands = new ArrayList();
 
     XYSeries estimatedDataset;
     XYSeries realDataset;
@@ -90,9 +92,8 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-        
-        testARMA();
 
+//        testARMA();
     }
 
     /**
@@ -111,22 +112,20 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
+        jSpinner2 = new javax.swing.JSpinner();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel3 = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jLabel4 = new javax.swing.JLabel();
+        jSpinner3 = new javax.swing.JSpinner();
+        jLabel5 = new javax.swing.JLabel();
+        jSpinner4 = new javax.swing.JSpinner();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        jTextPane1 = new javax.swing.JTextPane();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -159,165 +158,37 @@ public class MainFrame extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        jLabel1.setText("Known until month:");
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
+        jLabel2.setText("Num CPU(threads):");
+
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        jCheckBox1.setSelected(true);
+        jCheckBox1.setText("Singular algorithm");
+
+        jLabel3.setText("Idle");
+
+        jLabel4.setText("Initial inventory:");
+
+        jSpinner3.setModel(new javax.swing.SpinnerNumberModel(60, 0, null, 1));
+
+        jLabel5.setText("Warmup months:");
+
+        jSpinner4.setModel(new javax.swing.SpinnerNumberModel(20, 14, null, 1));
+
+        jTextPane1.setText("the results for each item in the list below is saved on a saparate file");
+        jTextPane1.setEnabled(false);
+        jScrollPane3.setViewportView(jTextPane1);
+
+        jButton3.setText("Run Baging Multilayer Perceptron");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
-        ));
-        jScrollPane3.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Inventory Level", jPanel2);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane4.setViewportView(jTable2);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Inventory cost", jPanel3);
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane5.setViewportView(jTable3);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane5)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Back order", jPanel4);
-
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane6.setViewportView(jTable4);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Back order cost", jPanel5);
-
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane7.setViewportView(jTable5);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane7)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Order amount", jPanel6);
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -326,15 +197,35 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton1)
+                        .addComponent(jCheckBox1)
+                        .addComponent(jLabel3)
+                        .addComponent(jButton2)
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSpinner2))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSpinner4))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSpinner1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -348,11 +239,36 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBox1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1))
-                    .addComponent(jTabbedPane1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -431,9 +347,14 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-//        runAllAlgorithmsSeparately();
-        runAllAlgorithmsSimultanously();
+        jLabel3.setText("Running");
+        if (jCheckBox1.isSelected() == true) {
+            runAllAlgorithmsSeparately();
+        } else {
+            runAllAlgorithmsSimultanously();
+        }
 
+//        
 ////\/\/\/ LAST MONTH
 //                month = 120;
 ////\/\/\/ BEGINGIN OF MONTH
@@ -472,11 +393,42 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jList1ValueChanged
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        jLabel3.setText("Running");
+        setupBestAlgorithms();
+        results = new Result[1];
+        results[0] = new Result();
+        results[0].algorithmName = algorithms[0].name + "Not done ";
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < results.length; i++) {
+                    results[i] = testOneAlgoritmSeparately(algorithms[i]);
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshGUI();
+                        }
+                    });
+                }
+                try {
+                    saveResults(results, true);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                jLabel3.setText("Done");
+            }
+        });
+        thread.start();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     public void runAllAlgorithmsSimultanously() {
         setupForcastingAlgorithms();
         results = new Result[1];
         results[0] = new Result();
-        results[0].algorithmName = "Algorithm shift on demand " + "Not done ";
+        results[0].algorithmName = "0 ActiveAlgorithm " + "Not done ";
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -490,13 +442,102 @@ public class MainFrame extends javax.swing.JFrame {
                         }
                     });
                 }
+                try {
+                    saveResults(results,false);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                jLabel3.setText("Done");
             }
         });
         thread.start();
+
     }
-    
+
+    public void saveResults(Result results[], boolean isBestAlgorithm) throws IOException {
+
+        for (int al = 0; al < results.length; al++) {
+            if (isBestAlgorithm == false) {
+                FileWriter csvWriter = new FileWriter(results[al].algorithmName + " Results.csv", false);
+            } else {
+                FileWriter csvWriter = new FileWriter("Best algorithm: " + results[al].algorithmName + " Results.csv", false);
+            }
+            FileWriter csvWriter = new FileWriter(results[al].algorithmName + " Results.csv", false);
+            csvWriter.append("Begining Inventory");
+            csvWriter.append("\n");
+            for (int i = 0; i < results[al].BeginingInventoryLevel.length; i++) {
+                csvWriter.append(String.valueOf(results[0].BeginingInventoryLevel[i]));
+                csvWriter.append("\n");
+            }
+            csvWriter.append("Order Quantity");
+            csvWriter.append("\n");
+            for (int i = 0; i < results[al].OrderAmount.length; i++) {
+                csvWriter.append(String.valueOf(results[al].OrderAmount[i]));
+                csvWriter.append("\n");
+            }
+
+            csvWriter.append("Ending Inventory");
+            csvWriter.append("\n");
+            for (int i = 0; i < results[al].OrderAmount.length; i++) {
+                csvWriter.append(String.valueOf(results[al].EndingInventoryLevel[i]));
+                csvWriter.append("\n");
+            }
+
+            csvWriter.append("Holding Cost");
+            csvWriter.append("\n");
+            for (int i = 0; i < results[al].InventoryCost.length; i++) {
+                csvWriter.append(String.valueOf(results[al].InventoryCost[i]));
+                csvWriter.append("\n");
+            }
+
+            csvWriter.append("Backorder Cost");
+            csvWriter.append("\n");
+            for (int i = 0; i < results[al].BackOrderCost.length; i++) {
+                csvWriter.append(String.valueOf(results[al].BackOrderCost[i]));
+                csvWriter.append("\n");
+            }
+
+            csvWriter.append("Total Cost");
+            csvWriter.append("\n");
+            csvWriter.append(String.valueOf(results[al].totalCost));
+            csvWriter.append("\n");
+
+            csvWriter.append("Total Holding Cost");
+            csvWriter.append("\n");
+            csvWriter.append(String.valueOf(results[al].TotalInventoryCost));
+            csvWriter.append("\n");
+
+            csvWriter.append("Average Holding Cost");
+            csvWriter.append("\n");
+            csvWriter.append(String.valueOf(results[al].averageInventoryCost));
+            csvWriter.append("\n");
+
+            csvWriter.append("Total backorder Cost");
+            csvWriter.append("\n");
+            csvWriter.append(String.valueOf(results[al].TotalBackOrderCost));
+            csvWriter.append("\n");
+
+            csvWriter.append("Average backorder Cost");
+            csvWriter.append("\n");
+            csvWriter.append(String.valueOf(results[al].averageBackOrderCost));
+            csvWriter.append("\n");
+
+            csvWriter.append("Estimated demand");
+            csvWriter.append("\n");
+            for (int i = 0; i < results[al].EstimatedDemands.length; i++) {
+                csvWriter.append(String.valueOf(results[al].EstimatedDemands[i]));
+                csvWriter.append("\n");
+            }
+
+            csvWriter.flush();
+            csvWriter.close();
+        }
+    }
+
     public void runAllAlgorithmsSeparately() {
         setupForcastingAlgorithms();
+        jProgressBar1.setMinimum(0);
+        jProgressBar1.setMaximum(algorithms.length - 1);
         results = new Result[algorithms.length];
         for (int i = 0; i < algorithms.length; i++) {
             results[i] = new Result();
@@ -506,15 +547,47 @@ public class MainFrame extends javax.swing.JFrame {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < algorithms.length; i++) {
-                    results[i] = testOneAlgoritmSeparately(algorithms[i]);
-                    SwingUtilities.invokeLater(new Runnable() {
+                Thread parallelRuns[] = new Thread[(int) jSpinner2.getValue()];
+                CPUUpperLowerBounds bounds[] = CPUUpperLowerBounds.spreadTasks(parallelRuns.length, results.length);
+                for (int c = 0; c < bounds.length; c++) {
+                    final int passed_c = c;
+                    parallelRuns[c] = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            refreshGUI();
+                            for (int i = bounds[passed_c].startIndex; i < bounds[passed_c].endIndex; i++) {
+                                results[i] = testOneAlgoritmSeparately(algorithms[i]);
+                                SwingUtilities.invokeLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int progress = 0;
+                                        for (int i = 0; i < results.length; i++) {
+                                            if (!results[i].algorithmName.contains("Not done")) {
+                                                progress = progress + 1;
+                                            }
+                                        }
+                                        jProgressBar1.setValue(progress);
+                                        refreshGUI();
+                                    }
+                                });
+                            }
                         }
                     });
+                    parallelRuns[c].start();
                 }
+                for (int c = 0; c < bounds.length; c++) {
+                    try {
+                        parallelRuns[c].join();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        jLabel3.setText("Error");
+                    }
+                }
+                try {
+                    saveResults(results,false);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                jLabel3.setText("Done");
             }
         });
         thread.start();
@@ -546,10 +619,15 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
-    
-    public Result testSimultanousAlgorithm(MyClassifier classifiers[]){
-        double EstimatedDemands[] = new double[RealDemands.numInstances()];
-        double InventoryLevel[] = new double[RealDemands.numInstances()];
+
+    public Result testSimultanousAlgorithm(MyClassifier classifiers[]) {
+        int knownMonthsIndex = (int) jSpinner1.getValue();
+        int warmupMonthsIndex = (int) jSpinner4.getValue();
+        int initialInventory = (int) jSpinner3.getValue();
+        double EstimatedDemands[] = new double[RealDemands.numInstances() + 1];
+        double InventoryLevel[] = new double[RealDemands.numInstances() + 1];
+        double EndingInventoryLevel[] = new double[RealDemands.numInstances() + 1];
+        double BeginingInventoryLevel[] = new double[RealDemands.numInstances() + 1];
         double InventoryCost[] = new double[RealDemands.numInstances()];
         double OrderAmount[] = new double[RealDemands.numInstances()];
         double BackOrder[] = new double[RealDemands.numInstances() + 1];
@@ -561,14 +639,38 @@ public class MainFrame extends javax.swing.JFrame {
             OrderAmount[month] = 0;
             BackOrder[month] = 0;
         }
-        InventoryLevel[0] = 60;
+        InventoryLevel[knownMonthsIndex] = initialInventory;
         double TotalCost = 0;
 
-        for (int month = 0; month < 119; month++) {
+        jProgressBar1.setMinimum(knownMonthsIndex);
+        jProgressBar1.setMaximum(RealDemands.numInstances() - 1);
+
+        for (int i = 0; i < knownMonthsIndex; i++) {
+            Double emptyEstimations[] = new Double[classifiers.length];
+            for (int j = 0; j < emptyEstimations.length; j++) {
+                emptyEstimations[j] = new Double(0);
+            }
+            estimationOfAlgorithmsDemands.add(emptyEstimations);
+        }
+
+        for (int month = knownMonthsIndex; month < RealDemands.numInstances(); month++) {
+            final int passed_month = month;
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    jProgressBar1.setValue(passed_month);
+                }
+            });
+
             //\/\/\/ BEGINGIN OF MONTH
             //\/\/\/ ESTIMATE DEMAND
-            EstimatedDemands[month + 1] = estimateNextMonthDemandSimultanously(month, classifiers);
+            if (month + 1 <= knownMonthsIndex) {
+                EstimatedDemands[month + 1] = RealDemands.instance(month).value(2);
+            } else {
+                EstimatedDemands[month + 1] = estimateNextMonthDemandSimultanously(month, classifiers, knownMonthsIndex, warmupMonthsIndex);
+            }
             //^^^ ESTIMATE DEMAND
+            BeginingInventoryLevel[month] = InventoryLevel[month];
             if (InventoryLevel[month] <= RealDemands.get(month).value(2) + BackOrder[month]) {
                 BackOrder[month + 1] = (RealDemands.get(month).value(2) + BackOrder[month]) - InventoryLevel[month];
                 InventoryLevel[month] = 0;
@@ -590,6 +692,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
             BackOrderCost[month] = BackOrder[month] * 3;
             TotalCost = TotalCost + BackOrderCost[month];
+
+            EndingInventoryLevel[month] = InventoryLevel[month];
+
             InventoryLevel[month + 1] = InventoryLevel[month] + OrderAmount[month];
             //^^^ END OF MONTH
         }
@@ -600,12 +705,17 @@ public class MainFrame extends javax.swing.JFrame {
         result.totalCost = TotalCost;
         result.InventoryLevel = InventoryLevel;
         result.OrderAmount = OrderAmount;
+        result.TotalBackOrderCost = getSum(BackOrderCost);
+        result.TotalInventoryCost = getSum(InventoryCost);
         result.averageBackOrderCost = getMean(BackOrderCost);
         result.averageInventoryCost = getMean(InventoryCost);
-        result.algorithmName = "0 Mixed";
+        result.BeginingInventoryLevel = BeginingInventoryLevel;
+        result.BackOrderCost = BackOrderCost;
+        result.EndingInventoryLevel = EndingInventoryLevel;
+        result.algorithmName = "0 ActiveAlgorithm";
 
         if (Double.isNaN(result.totalCost) == true) {
-            result.algorithmName = "0 Mixed" + "_FAILED";
+            result.algorithmName = "0 ActiveAlgorithm" + "_FAILED";
             result.totalCost = 1000000000;
         }
 
@@ -613,8 +723,13 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public Result testOneAlgoritmSeparately(MyClassifier classifier) {
-        double EstimatedDemands[] = new double[RealDemands.numInstances()];
-        double InventoryLevel[] = new double[RealDemands.numInstances()];
+        int knownMonthsIndex = (int) jSpinner1.getValue();
+        int warmupMonthsIndex = (int) jSpinner4.getValue();
+        int initialInventory = (int) jSpinner3.getValue();
+        double EstimatedDemands[] = new double[RealDemands.numInstances() + 1];
+        double InventoryLevel[] = new double[RealDemands.numInstances() + 1];
+        double EndingInventoryLevel[] = new double[RealDemands.numInstances() + 1];
+        double BeginingInventoryLevel[] = new double[RealDemands.numInstances() + 1];
         double InventoryCost[] = new double[RealDemands.numInstances()];
         double OrderAmount[] = new double[RealDemands.numInstances()];
         double BackOrder[] = new double[RealDemands.numInstances() + 1];
@@ -626,19 +741,25 @@ public class MainFrame extends javax.swing.JFrame {
             OrderAmount[month] = 0;
             BackOrder[month] = 0;
         }
-        InventoryLevel[0] = 60;
+        InventoryLevel[knownMonthsIndex] = initialInventory;
         double TotalCost = 0;
 
-        for (int month = 0; month < 119; month++) {
+        for (int month = knownMonthsIndex; month < RealDemands.numInstances(); month++) {
             //\/\/\/ BEGINGIN OF MONTH
             //\/\/\/ ESTIMATE DEMAND
-            EstimatedDemands[month + 1] = estimateNextMonthDemandSeparately(month, classifier.classifier);
+            if (month + 1 <= knownMonthsIndex) {
+                EstimatedDemands[month + 1] = RealDemands.instance(month).value(2);
+            } else {
+                EstimatedDemands[month + 1] = classifier.estimateNextMonthDemandSeparately(RealDemands, month, knownMonthsIndex, warmupMonthsIndex);
+            }
+
             if (EstimatedDemands[month + 1] == -1) {
                 Result result = new Result();
                 result.algorithmName = classifier.name + "_FAILED";
-                return result;
+//                return result;
             }
             //^^^ ESTIMATE DEMAND
+            BeginingInventoryLevel[month] = InventoryLevel[month];
             if (InventoryLevel[month] <= RealDemands.get(month).value(2) + BackOrder[month]) {
                 BackOrder[month + 1] = (RealDemands.get(month).value(2) + BackOrder[month]) - InventoryLevel[month];
                 InventoryLevel[month] = 0;
@@ -660,6 +781,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
             BackOrderCost[month] = BackOrder[month] * 3;
             TotalCost = TotalCost + BackOrderCost[month];
+
+            EndingInventoryLevel[month] = InventoryLevel[month];
+
             InventoryLevel[month + 1] = InventoryLevel[month] + OrderAmount[month];
             //^^^ END OF MONTH
         }
@@ -670,8 +794,13 @@ public class MainFrame extends javax.swing.JFrame {
         result.totalCost = TotalCost;
         result.InventoryLevel = InventoryLevel;
         result.OrderAmount = OrderAmount;
+        result.TotalBackOrderCost = getSum(BackOrderCost);
+        result.TotalInventoryCost = getSum(InventoryCost);
         result.averageBackOrderCost = getMean(BackOrderCost);
         result.averageInventoryCost = getMean(InventoryCost);
+        result.BeginingInventoryLevel = BeginingInventoryLevel;
+        result.BackOrderCost = BackOrderCost;
+        result.EndingInventoryLevel = EndingInventoryLevel;
         result.algorithmName = classifier.name;
 
         if (Double.isNaN(result.totalCost) == true) {
@@ -690,270 +819,351 @@ public class MainFrame extends javax.swing.JFrame {
         return outputResults;
     }
 
+    public void setupBestAlgorithms() {
+        algorithms = new MyClassifier[1];
+        algorithms[0] = new MyClassifier();
+        algorithms[0].type = "DM";
+        algorithms[0].classifier = new Bagging();
+        ((Bagging) algorithms[0].classifier).setClassifier(new MultilayerPerceptron());
+        algorithms[0].name = "0 Bagging+MultilayerPerceptron";
+    }
+
     public void setupForcastingAlgorithms() {
-        algorithms = new MyClassifier[37];
-        for (int i = 0; i < algorithms.length; i++) {
+        algorithms = new MyClassifier[30];
+        for (int i = 0; i < algorithms.length - 1; i++) {
             algorithms[i] = new MyClassifier();
+            algorithms[i].type = "DM";
         }
+        algorithms[29] = new MyClassifier();
+        algorithms[29].name = "29 ARMA";
+        algorithms[29].type = "ARMA";
+
         algorithms[0].classifier = new GaussianProcesses();
         algorithms[0].name = "0 GaussianProcesses";
 
         algorithms[1].classifier = new LinearRegression();
         algorithms[1].name = "1 LinearRegression";
 
-        algorithms[2].classifier = new MultilayerPerceptron();
-        algorithms[2].name = "2 MultilayerPerceptron";
+//        algorithms[2].classifier = new MultilayerPerceptron();
+//        algorithms[2].name = "2 MultilayerPerceptron";
+        algorithms[2].classifier = new SMOreg();
+        algorithms[2].name = "2 SMOreg";
 
-        algorithms[3].classifier = new SMOreg();
-        algorithms[3].name = "3 SMOreg";
+        algorithms[3].classifier = new RegressionByDiscretization();
+        ((RegressionByDiscretization) algorithms[3].classifier).setEstimator(new UnivariateKernelEstimator());
+        ((RegressionByDiscretization) algorithms[3].classifier).setNumBins(500);
+        ((RegressionByDiscretization) algorithms[3].classifier).setMinimizeAbsoluteError(true);
+        ((RegressionByDiscretization) algorithms[3].classifier).setUseEqualFrequency(true);
+        ((RegressionByDiscretization) algorithms[3].classifier).setClassifier(new IBk());
+//        algorithms[4].classifier = new IBk();
+        algorithms[3].name = "3 IBk D";
 
-        algorithms[4].classifier = new IBk();
-        algorithms[4].name = "4 IBk";
+//        algorithms[5].classifier = new RegressionByDiscretization();
+//        ((RegressionByDiscretization) algorithms[5].classifier).setEstimator(new UnivariateKernelEstimator());
+//        ((RegressionByDiscretization) algorithms[5].classifier).setNumBins(500);
+//        ((RegressionByDiscretization) algorithms[5].classifier).setMinimizeAbsoluteError(true);
+//        ((RegressionByDiscretization) algorithms[5].classifier).setUseEqualFrequency(true);
+//        ((RegressionByDiscretization) algorithms[5].classifier).setClassifier(new KStar());
+////        algorithms[5].classifier = new KStar();
+//        algorithms[5].name = "5 KStar D";
+        algorithms[4].classifier = new LWL();
+        algorithms[4].name = "4 LWL";
 
-        algorithms[5].classifier = new KStar();
-        algorithms[5].name = "5 KStar";
+        algorithms[5].classifier = new AdditiveRegression();
+        algorithms[5].name = "5 AdditiveRegression";
 
-        algorithms[6].classifier = new LWL();
-        algorithms[6].name = "6 LWL";
+        algorithms[6].classifier = new RegressionByDiscretization();
+        ((RegressionByDiscretization) algorithms[6].classifier).setEstimator(new UnivariateKernelEstimator());
+        ((RegressionByDiscretization) algorithms[6].classifier).setNumBins(500);
+        ((RegressionByDiscretization) algorithms[6].classifier).setMinimizeAbsoluteError(true);
+        ((RegressionByDiscretization) algorithms[6].classifier).setUseEqualFrequency(true);
+        ((RegressionByDiscretization) algorithms[6].classifier).setClassifier(new Bagging());
+        ((Bagging) ((RegressionByDiscretization) algorithms[6].classifier).getClassifier()).setClassifier(new BayesNet());
+//        algorithms[8].classifier = new Bagging();
+//        ((Bagging) algorithms[8].classifier).setClassifier(new BayesNet());
+        algorithms[6].name = "6 Bagging+BayesNet D";
 
-        algorithms[7].classifier = new AdditiveRegression();
-        algorithms[7].name = "7 AdditiveRegression";
+        algorithms[7].classifier = new Bagging();
+        ((Bagging) algorithms[7].classifier).setClassifier(new GaussianProcesses());
+        algorithms[7].name = "7 Bagging+GaussianProcesses";
 
         algorithms[8].classifier = new Bagging();
-        ((Bagging) algorithms[8].classifier).setClassifier(new BayesNet());
-        algorithms[8].name = "8 Bagging+BayesNet";
+        ((Bagging) algorithms[8].classifier).setClassifier(new LinearRegression());
+        algorithms[8].name = "8 Bagging+LinearRegression";
 
+//        algorithms[11].classifier = new RegressionByDiscretization();
+//        ((RegressionByDiscretization) algorithms[11].classifier).setEstimator(new UnivariateKernelEstimator());
+//        ((RegressionByDiscretization) algorithms[11].classifier).setNumBins(500);
+//        ((RegressionByDiscretization) algorithms[11].classifier).setMinimizeAbsoluteError(true);
+//        ((RegressionByDiscretization) algorithms[11].classifier).setUseEqualFrequency(true);
+//        ((RegressionByDiscretization) algorithms[11].classifier).setClassifier(new Bagging());
+//        ((Bagging) ((RegressionByDiscretization) algorithms[11].classifier).getClassifier()).setClassifier(new Logistic());
+////        algorithms[11].classifier = new Bagging();
+////        ((Bagging) algorithms[11].classifier).setClassifier(new Logistic());
+//        algorithms[11].name = "11 Bagging+Logistic D";
         algorithms[9].classifier = new Bagging();
-        ((Bagging) algorithms[9].classifier).setClassifier(new GaussianProcesses());
-        algorithms[9].name = "9 Bagging+GaussianProcesses";
+        ((Bagging) algorithms[9].classifier).setClassifier(new MultilayerPerceptron());
+        algorithms[9].name = "9 Bagging+MultilayerPerceptron";
 
-        algorithms[10].classifier = new Bagging();
-        ((Bagging) algorithms[10].classifier).setClassifier(new LinearRegression());
-        algorithms[10].name = "10 Bagging+LinearRegression";
+//        algorithms[13].classifier = new RegressionByDiscretization();
+//        ((RegressionByDiscretization) algorithms[13].classifier).setEstimator(new UnivariateKernelEstimator());
+//        ((RegressionByDiscretization) algorithms[13].classifier).setNumBins(500);
+//        ((RegressionByDiscretization) algorithms[13].classifier).setMinimizeAbsoluteError(true);
+//        ((RegressionByDiscretization) algorithms[13].classifier).setUseEqualFrequency(true);
+//        ((RegressionByDiscretization) algorithms[13].classifier).setClassifier(new Bagging());
+//        ((Bagging) ((RegressionByDiscretization) algorithms[13].classifier).getClassifier()).setClassifier(new SGD());
+////        algorithms[13].classifier = new Bagging();
+////        ((Bagging) algorithms[13].classifier).setClassifier(new SGD());
+//        algorithms[13].name = "13 Bagging+SGD D";
+        algorithms[10].classifier = new RegressionByDiscretization();
+        ((RegressionByDiscretization) algorithms[10].classifier).setEstimator(new UnivariateKernelEstimator());
+        ((RegressionByDiscretization) algorithms[10].classifier).setNumBins(500);
+        ((RegressionByDiscretization) algorithms[10].classifier).setMinimizeAbsoluteError(true);
+        ((RegressionByDiscretization) algorithms[10].classifier).setUseEqualFrequency(true);
+        ((RegressionByDiscretization) algorithms[10].classifier).setClassifier(new Bagging());
+        ((Bagging) ((RegressionByDiscretization) algorithms[10].classifier).getClassifier()).setClassifier(new SMO());
+//        algorithms[14].classifier = new Bagging();
+//        ((Bagging) algorithms[14].classifier).setClassifier(new SMO());
+        algorithms[10].name = "10 Bagging+SMO D";
 
-        algorithms[11].classifier = new Bagging();
-        ((Bagging) algorithms[11].classifier).setClassifier(new Logistic());
-        algorithms[11].name = "11 Bagging+Logistic";
+        algorithms[11].classifier = new RegressionByDiscretization();
+        ((RegressionByDiscretization) algorithms[11].classifier).setEstimator(new UnivariateKernelEstimator());
+        ((RegressionByDiscretization) algorithms[11].classifier).setNumBins(500);
+        ((RegressionByDiscretization) algorithms[11].classifier).setMinimizeAbsoluteError(true);
+        ((RegressionByDiscretization) algorithms[11].classifier).setUseEqualFrequency(true);
+        ((RegressionByDiscretization) algorithms[11].classifier).setClassifier(new Bagging());
+        ((Bagging) ((RegressionByDiscretization) algorithms[11].classifier).getClassifier()).setClassifier(new AdaBoostM1());
+//        algorithms[15].classifier = new Bagging();
+//        ((Bagging) algorithms[15].classifier).setClassifier(new AdaBoostM1());
+        algorithms[11].name = "11 Bagging+AdaBoostM1(Decision stump) D";
 
-        algorithms[12].classifier = new Bagging();
-        ((Bagging) algorithms[12].classifier).setClassifier(new MultilayerPerceptron());
-        algorithms[12].name = "12 Bagging+MultilayerPerceptron";
+        algorithms[12].classifier = new RegressionByDiscretization();
+        ((RegressionByDiscretization) algorithms[12].classifier).setEstimator(new UnivariateKernelEstimator());
+        ((RegressionByDiscretization) algorithms[12].classifier).setNumBins(500);
+        ((RegressionByDiscretization) algorithms[12].classifier).setMinimizeAbsoluteError(true);
+        ((RegressionByDiscretization) algorithms[12].classifier).setUseEqualFrequency(true);
+        ((RegressionByDiscretization) algorithms[12].classifier).setClassifier(new Bagging());
+        ((Bagging) ((RegressionByDiscretization) algorithms[12].classifier).getClassifier()).setClassifier(new LogitBoost());
+//        algorithms[16].classifier = new Bagging();
+//        ((Bagging) algorithms[16].classifier).setClassifier(new LogitBoost());
+        algorithms[12].name = "12 Bagging+LogitBoost (Decision stump) D";
 
-        algorithms[13].classifier = new Bagging();
-        ((Bagging) algorithms[13].classifier).setClassifier(new SGD());
-        algorithms[13].name = "13 Bagging+SGD";
+        algorithms[13].classifier = new RegressionByDiscretization();
+        ((RegressionByDiscretization) algorithms[13].classifier).setEstimator(new UnivariateKernelEstimator());
+        ((RegressionByDiscretization) algorithms[13].classifier).setNumBins(500);
+        ((RegressionByDiscretization) algorithms[13].classifier).setMinimizeAbsoluteError(true);
+        ((RegressionByDiscretization) algorithms[13].classifier).setUseEqualFrequency(true);
+        ((RegressionByDiscretization) algorithms[13].classifier).setClassifier(new Bagging());
+        ((Bagging) ((RegressionByDiscretization) algorithms[13].classifier).getClassifier()).setClassifier(new JRip());
+//        algorithms[17].classifier = new Bagging();
+//        ((Bagging) algorithms[17].classifier).setClassifier(new JRip());
+        algorithms[13].name = "13 Bagging+JRip D";
 
-        algorithms[14].classifier = new Bagging();
-        ((Bagging) algorithms[14].classifier).setClassifier(new SMO());
-        algorithms[14].name = "14 Bagging+SMO";
+        algorithms[14].classifier = new RegressionByDiscretization();
+        ((RegressionByDiscretization) algorithms[14].classifier).setEstimator(new UnivariateKernelEstimator());
+        ((RegressionByDiscretization) algorithms[14].classifier).setNumBins(500);
+        ((RegressionByDiscretization) algorithms[14].classifier).setMinimizeAbsoluteError(true);
+        ((RegressionByDiscretization) algorithms[14].classifier).setUseEqualFrequency(true);
+        ((RegressionByDiscretization) algorithms[14].classifier).setClassifier(new Bagging());
+        ((Bagging) ((RegressionByDiscretization) algorithms[14].classifier).getClassifier()).setClassifier(new OneR());
+//        algorithms[18].classifier = new Bagging();
+//        ((Bagging) algorithms[18].classifier).setClassifier(new OneR());
+        algorithms[14].name = "14 Bagging+OneR D";
 
-        algorithms[15].classifier = new Bagging();
-        ((Bagging) algorithms[15].classifier).setClassifier(new AdaBoostM1());
-        algorithms[15].name = "15 Bagging+AdaBoostM1";
+        algorithms[15].classifier = new RegressionByDiscretization();
+        ((RegressionByDiscretization) algorithms[15].classifier).setEstimator(new UnivariateKernelEstimator());
+        ((RegressionByDiscretization) algorithms[15].classifier).setNumBins(500);
+        ((RegressionByDiscretization) algorithms[15].classifier).setMinimizeAbsoluteError(true);
+        ((RegressionByDiscretization) algorithms[15].classifier).setUseEqualFrequency(true);
+        ((RegressionByDiscretization) algorithms[15].classifier).setClassifier(new Bagging());
+        ((Bagging) ((RegressionByDiscretization) algorithms[15].classifier).getClassifier()).setClassifier(new PART());
+//        algorithms[19].classifier = new Bagging();
+//        ((Bagging) algorithms[19].classifier).setClassifier(new PART());
+        algorithms[15].name = "15 Bagging+PART D";
 
-        algorithms[16].classifier = new Bagging();
-        ((Bagging) algorithms[16].classifier).setClassifier(new LogitBoost());
-        algorithms[16].name = "16 Bagging+LogitBoost";
+        algorithms[16].classifier = new RandomCommittee();
+        ((RandomCommittee) algorithms[16].classifier).setClassifier(new RandomTree());
+        algorithms[16].name = "16 RandomCommittee+RandomTree";
 
-        algorithms[17].classifier = new Bagging();
-        ((Bagging) algorithms[17].classifier).setClassifier(new JRip());
-        algorithms[17].name = "17 Bagging+JRip";
+        algorithms[17].classifier = new RandomCommittee();
+        ((RandomCommittee) algorithms[17].classifier).setClassifier(new GaussianProcesses());
+        algorithms[17].name = "17 RandomCommittee+GaussianProcesses";
 
-        algorithms[18].classifier = new Bagging();
-        ((Bagging) algorithms[18].classifier).setClassifier(new OneR());
-        algorithms[18].name = "18 Bagging+OneR";
-
-        algorithms[19].classifier = new Bagging();
-        ((Bagging) algorithms[19].classifier).setClassifier(new PART());
-        algorithms[19].name = "19 Bagging+PART";
-
-        algorithms[20].classifier = new RandomCommittee();
-        ((RandomCommittee) algorithms[20].classifier).setClassifier(new RandomTree());
-        algorithms[20].name = "20 RandomCommittee+RandomTree";
-
-        algorithms[21].classifier = new RandomCommittee();
-        ((RandomCommittee) algorithms[21].classifier).setClassifier(new GaussianProcesses());
-        algorithms[21].name = "21 RandomCommittee+GaussianProcesses";
-
-        algorithms[22].classifier = new RandomCommittee();
-        ((RandomCommittee) algorithms[22].classifier).setClassifier(new LinearRegression());
-        algorithms[22].name = "22 RandomCommittee+LinearRegression";
-
-        algorithms[23].classifier = new RandomCommittee();
-        ((RandomCommittee) algorithms[23].classifier).setClassifier(new Logistic());
-        algorithms[23].name = "23 RandomCommittee+Logistic";
-
-        algorithms[24].classifier = new RandomCommittee();
-        ((RandomCommittee) algorithms[24].classifier).setClassifier(new MultilayerPerceptron());
-        algorithms[24].name = "24 RandomCommittee+MultilayerPerceptron";
-
-        algorithms[25].classifier = new Stacking();
-        Classifier internalClassifiers[] = new Classifier[3];
-        internalClassifiers[0] = new GaussianProcesses();
-        internalClassifiers[1] = new LinearRegression();
-        internalClassifiers[2] = new Logistic();
-        ((Stacking) algorithms[25].classifier).setClassifiers(internalClassifiers);
-        algorithms[25].name = "25 Stacking+GaussianProcesses+LinearRegression+Logistic";
-
-        algorithms[26].classifier = new Stacking();
-        internalClassifiers = new Classifier[2];
+//        algorithms[22].classifier = new RandomCommittee();
+//        ((RandomCommittee) algorithms[22].classifier).setClassifier(new LinearRegression());
+//        algorithms[22].name = "22 RandomCommittee+LinearRegression";
+//        algorithms[23].classifier = new RegressionByDiscretization();
+//        ((RegressionByDiscretization) algorithms[23].classifier).setEstimator(new UnivariateKernelEstimator());
+//        ((RegressionByDiscretization) algorithms[23].classifier).setNumBins(500);
+//        ((RegressionByDiscretization) algorithms[23].classifier).setMinimizeAbsoluteError(true);
+//        ((RegressionByDiscretization) algorithms[23].classifier).setUseEqualFrequency(true);
+//        ((RegressionByDiscretization) algorithms[23].classifier).setClassifier(new RandomCommittee());
+//        ((RandomCommittee) ((RegressionByDiscretization) algorithms[23].classifier).getClassifier()).setClassifier(new Logistic());
+////        algorithms[23].classifier = new RandomCommittee();
+////        ((RandomCommittee) algorithms[23].classifier).setClassifier(new Logistic());
+//        algorithms[23].name = "23 RandomCommittee+Logistic D";
+//        algorithms[24].classifier = new RandomCommittee();
+//        ((RandomCommittee) algorithms[24].classifier).setClassifier(new MultilayerPerceptron());
+//        algorithms[24].name = "24 RandomCommittee+MultilayerPerceptron";
+//        algorithms[25].classifier = new Stacking();
+//        Classifier internalClassifiers[] = new Classifier[3];
+//        internalClassifiers[0] = new GaussianProcesses();
+//        internalClassifiers[1] = new LinearRegression();
+//        RegressionByDiscretization dcl = new RegressionByDiscretization();
+//        dcl.setEstimator(new UnivariateKernelEstimator());
+//        dcl.setNumBins(500);
+//        dcl.setMinimizeAbsoluteError(true);
+//        dcl.setUseEqualFrequency(true);
+//        dcl.setClassifier(new Logistic());
+//        internalClassifiers[2] = dcl;
+//        ((Stacking) algorithms[25].classifier).setClassifiers(internalClassifiers);
+//        algorithms[25].name = "25 Stacking+GaussianProcesses+LinearRegression+(Logistic D)";
+        algorithms[18].classifier = new Stacking();
+        Classifier internalClassifiers[] = new Classifier[2];
         internalClassifiers[0] = new RandomForest();
         internalClassifiers[1] = new GaussianProcesses();
-        ((Stacking) algorithms[26].classifier).setClassifiers(internalClassifiers);
-        algorithms[26].name = "26 Stacking+RandomForest+GaussianProcesses";
+        ((Stacking) algorithms[18].classifier).setClassifiers(internalClassifiers);
+        algorithms[18].name = "18 Stacking+RandomForest+GaussianProcesses";
 
-        algorithms[27].classifier = new Vote();
+        algorithms[19].classifier = new Vote();
         internalClassifiers = new Classifier[3];
         internalClassifiers[0] = new GaussianProcesses();
         internalClassifiers[1] = new LinearRegression();
-        internalClassifiers[2] = new Logistic();
-        ((Vote) algorithms[27].classifier).setClassifiers(internalClassifiers);
-        algorithms[27].name = "27 Vote+GaussianProcesses+LinearRegression+Logistic";
+        RegressionByDiscretization dcl = new RegressionByDiscretization();
+        dcl.setEstimator(new UnivariateKernelEstimator());
+        dcl.setNumBins(500);
+        dcl.setMinimizeAbsoluteError(true);
+        dcl.setUseEqualFrequency(true);
+        dcl.setClassifier(new Logistic());
+        internalClassifiers[2] = dcl;
+        ((Vote) algorithms[19].classifier).setClassifiers(internalClassifiers);
+        algorithms[19].name = "19 Vote+GaussianProcesses+LinearRegression+(Logistic D)";
 
-        algorithms[28].classifier = new Vote();
+        algorithms[20].classifier = new Vote();
         internalClassifiers = new Classifier[2];
         internalClassifiers[0] = new RandomForest();
         internalClassifiers[1] = new GaussianProcesses();
-        ((Vote) algorithms[28].classifier).setClassifiers(internalClassifiers);
-        algorithms[28].name = "28 Vote+RandomForest+GaussianProcesses";
+        ((Vote) algorithms[20].classifier).setClassifiers(internalClassifiers);
+        algorithms[20].name = "20 Vote+RandomForest+GaussianProcesses";
 
-        algorithms[29].classifier = new DecisionTable();
-        algorithms[29].name = "29 DecisionTable";
+//        algorithms[29].classifier = new DecisionTable();
+//        algorithms[29].name = "29 DecisionTable";
+        algorithms[21].classifier = new M5Rules();
+        algorithms[21].name = "21 M5Rules";
 
-        algorithms[30].classifier = new M5Rules();
-        algorithms[30].name = "30 M5Rules";
+        algorithms[22].classifier = new ZeroR();
+        algorithms[22].name = "22 ZeroR";
 
-        algorithms[31].classifier = new ZeroR();
-        algorithms[31].name = "31 ZeroR";
+        algorithms[23].classifier = new DecisionStump();
+        algorithms[23].name = "23 DecisionStump";
 
-        algorithms[32].classifier = new DecisionStump();
-        algorithms[32].name = "32 DecisionStump";
+        algorithms[24].classifier = new M5P();
+        algorithms[24].name = "24 M5P";
 
-        algorithms[33].classifier = new M5P();
-        algorithms[33].name = "33 M5P";
+        algorithms[25].classifier = new RandomForest();
+        algorithms[25].name = "25 RandomForest";
 
-        algorithms[34].classifier = new RandomForest();
-        algorithms[34].name = "34 RandomForest";
+        algorithms[26].classifier = new RandomTree();
+        algorithms[26].name = "26 RandomTree";
 
-        algorithms[35].classifier = new RandomTree();
-        algorithms[35].name = "35 RandomTree";
+        algorithms[27].classifier = new REPTree();
+        algorithms[27].name = "27 REPTree";
 
-        algorithms[36].classifier = new REPTree();
-        algorithms[36].name = "36 REPTree";
+        algorithms[28].classifier = new RegressionByDiscretization();
+        ((RegressionByDiscretization) algorithms[28].classifier).setEstimator(new UnivariateKernelEstimator());
+        ((RegressionByDiscretization) algorithms[28].classifier).setNumBins(500);
+        ((RegressionByDiscretization) algorithms[28].classifier).setMinimizeAbsoluteError(true);
+        ((RegressionByDiscretization) algorithms[28].classifier).setUseEqualFrequency(true);
+        ((RegressionByDiscretization) algorithms[28].classifier).setClassifier(new AdaBoostM1());
+        ((AdaBoostM1) ((RegressionByDiscretization) algorithms[28].classifier).getClassifier()).setClassifier(new JRip());
+//        algorithms[17].classifier = new Bagging();
+//        ((Bagging) algorithms[17].classifier).setClassifier(new JRip());
+        algorithms[28].name = "28 AdaBoostM1 D+Decision stump";
+
+//        algorithms[38].classifier = new RegressionByDiscretization();
+//        ((RegressionByDiscretization) algorithms[38].classifier).setEstimator(new UnivariateKernelEstimator());
+//        ((RegressionByDiscretization) algorithms[38].classifier).setNumBins(500);
+//        ((RegressionByDiscretization) algorithms[38].classifier).setMinimizeAbsoluteError(true);
+//        ((RegressionByDiscretization) algorithms[38].classifier).setUseEqualFrequency(true);
+//        ((RegressionByDiscretization) algorithms[38].classifier).setClassifier(new AdaBoostM1());
+//        ((AdaBoostM1) ((RegressionByDiscretization) algorithms[38].classifier).getClassifier()).setClassifier(new MultilayerPerceptron());
+////        algorithms[17].classifier = new Bagging();
+////        ((Bagging) algorithms[17].classifier).setClassifier(new JRip());
+//        algorithms[38].name = "38 AdaBoostM1 D+MultilayerPerceptron";
     }
 
-
-    public Double[] makeOneMonthEstimationForAllAlgorithms(int currentMonthIndex) {
-        Double output[]=new Double[algorithms.length];
-        for (int i = 0; i < algorithms.length; i++) {
-            WekaForecaster forecaster = new WekaForecaster();
-            TSLagMaker lagMaker = forecaster.getTSLagMaker();
-
-            try {
-                forecaster.setFieldsToForecast("Demand");
-                forecaster.setCalculateConfIntervalsForForecasts(1);
-                forecaster.setBaseForecaster(algorithms[i].classifier);
-                lagMaker.setTimeStampField("Month");
-                lagMaker.setMinLag(1);
-                lagMaker.setMaxLag(12);
-                lagMaker.setAddMonthOfYear(true);
-                lagMaker.setAddQuarterOfYear(true);
-                Instances a = new Instances(RealDemands, 0, currentMonthIndex + 1);
-                int knownPart = Math.max(currentMonthIndex + 1, 18);
-                forecaster.buildForecaster(new Instances(RealDemands, 0, knownPart), System.out);
-                forecaster.primeForecaster(new Instances(RealDemands, 0, currentMonthIndex + 1));
-
-                int numStepsToForecast = 1;
-                List<List<NumericPrediction>> forecast = forecaster.forecast(numStepsToForecast, System.out);
-//            List<List<NumericPrediction>> forecast=forecaster.forecast(1, new Instances(RealDemands,0,currentMonthIndex+1));
-
-                double forecastedValues[] = getPredictionForNextMonth(forecast, numStepsToForecast);
-//            success = true;
-//            System.out.println(success);
-//            System.out.println(forecastedValues[1]);
-                double rangeMidToHighConfidenceInterval = forecastedValues[0] - forecastedValues[1];
-                double offset = rangeMidToHighConfidenceInterval / 0.6;
-                output[i] = forecastedValues[0] + offset;
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                String msg = ex.getMessage().toLowerCase();
-                if (msg.indexOf("not in classpath") > -1) {
-                    output[i]=new Double(-1);
-                }
-            }
-        }
-        return output;
-    }
-    
-    public double estimateNextMonthDemandSimultanously(int currentMonthIndex,MyClassifier classifiers[])
-    {
-        Double generatedDemands[]=makeOneMonthEstimationForAllAlgorithms(currentMonthIndex);
+    public double estimateNextMonthDemandSimultanously(int currentMonthIndex, MyClassifier classifiers[], int knownMonthsIndex, int warmupMonthsIndex) {
+        Double generatedDemands[] = MyClassifier.makeOneMonthEstimationForAllAlgorithms(RealDemands, algorithms, currentMonthIndex, (int) jSpinner2.getValue(), knownMonthsIndex, warmupMonthsIndex);
         estimationOfAlgorithmsDemands.add(generatedDemands);
-        BestAlgorithm bestAlgorithm = getBestSimultanousAlgorithmUntilNow(estimationOfAlgorithmsDemands,currentMonthIndex);
-        System.out.println("Time: "+currentMonthIndex);
-        System.out.println("Current classifier: "+classifiers[bestAlgorithm.index].name);
-        return estimateNextMonthDemandSeparately(currentMonthIndex,classifiers[bestAlgorithm.index].classifier);
+        BestAlgorithm bestAlgorithm = getBestSimultanousAlgorithmUntilNow(estimationOfAlgorithmsDemands, currentMonthIndex);
+        System.out.println("Time: " + currentMonthIndex);
+        System.out.println("Current classifier: " + classifiers[bestAlgorithm.index].name);
+        System.out.println("Cost: " + bestAlgorithm.cost);
+        return classifiers[bestAlgorithm.index].estimateNextMonthDemandSeparately(RealDemands, currentMonthIndex, knownMonthsIndex, warmupMonthsIndex);
     }
-    
-    public BestAlgorithm getBestSimultanousAlgorithmUntilNow(ArrayList<Double[]> estimations,int currentMonthIndex)
-    {
-        double costs[]=new double[algorithms.length];
+
+    public BestAlgorithm getBestSimultanousAlgorithmUntilNow(ArrayList<Double[]> estimations, int currentMonthIndex) {
+        int knownMonthsIndex = (int) jSpinner1.getValue();
+        int warmupMonthsIndex = (int) jSpinner4.getValue();
+        double costs[] = new double[algorithms.length];
         for (int i = 0; i < algorithms.length; i++) {
-            double estimatesForOneAlgorithm[]=new double[estimationOfAlgorithmsDemands.size()];
+            double estimatesForOneAlgorithm[] = new double[estimationOfAlgorithmsDemands.size()];
             for (int j = 0; j < estimationOfAlgorithmsDemands.size(); j++) {
-                if(estimations.get(j)[i]!=null)
-                {
-                    if(!Double.isNaN(estimations.get(j)[i]))
-                    {
-                        estimatesForOneAlgorithm[j]=estimations.get(j)[i];
-                    }else{
-                        estimatesForOneAlgorithm[j]=Double.POSITIVE_INFINITY;
+                if (estimations.get(j)[i] != null) {
+                    if (!Double.isNaN(estimations.get(j)[i])) {
+                        estimatesForOneAlgorithm[j] = estimations.get(j)[i];
+                    } else {
+                        estimatesForOneAlgorithm[j] = Double.POSITIVE_INFINITY;
                     }
-                }else{
-                    estimatesForOneAlgorithm[j]=Double.POSITIVE_INFINITY;
+                } else {
+                    estimatesForOneAlgorithm[j] = Double.POSITIVE_INFINITY;
                 }
             }
-            double mean=getMean(estimatesForOneAlgorithm);
+            double mean = getMean(estimatesForOneAlgorithm);
             for (int j = 0; j < estimatesForOneAlgorithm.length; j++) {
-                if(estimatesForOneAlgorithm[j]==-1)
-                {
-                    estimatesForOneAlgorithm[j]=mean;
+                if (estimatesForOneAlgorithm[j] == -1) {
+                    estimatesForOneAlgorithm[j] = mean;
                 }
             }
-            costs[i]=getCostUntilCurrentTime(estimatesForOneAlgorithm,currentMonthIndex);
+            costs[i] = getCostUntilCurrentTime(estimatesForOneAlgorithm, currentMonthIndex, knownMonthsIndex);
         }
-        int bestIndex=getMinIndex(costs);
-        return new BestAlgorithm(bestIndex,costs[bestIndex]);
+        int bestIndex = getMinIndex(costs);
+        for (int i = 0; i < costs.length; i++) {
+            System.out.println("Cost[" + i + "]: " + costs[i]);
+        }
+        System.out.println("Best cost index: " + bestIndex);
+        return new BestAlgorithm(bestIndex, costs[bestIndex]);
     }
-    
-    public class BestAlgorithm
-    {
+
+    public class BestAlgorithm {
+
         public int index;
         public double cost;
-        BestAlgorithm(int passed_Index,double passed_cost)
-        {
-            index=passed_Index;
-            cost=passed_cost;
+
+        BestAlgorithm(int passed_Index, double passed_cost) {
+            index = passed_Index;
+            cost = passed_cost;
         }
     }
-    
-    public double getCostUntilCurrentTime(double estimations[],int currentMonthIndex)
-    {
-        double InventoryLevel[] = new double[RealDemands.numInstances()];
+
+    public double getCostUntilCurrentTime(double estimations[], int currentMonthIndex, int knownMonthsIndex) {
+        int initialInventory = (int) jSpinner3.getValue();
+        double InventoryLevel[] = new double[RealDemands.numInstances() + 1];
         double InventoryCost[] = new double[RealDemands.numInstances()];
         double OrderAmount[] = new double[RealDemands.numInstances()];
         double BackOrder[] = new double[RealDemands.numInstances() + 1];
         double BackOrderCost[] = new double[RealDemands.numInstances()];
+
         for (int month = 0; month < RealDemands.numInstances(); month++) {
             InventoryLevel[month] = 0;
             InventoryCost[month] = 0;
             OrderAmount[month] = 0;
             BackOrder[month] = 0;
         }
-        InventoryLevel[0] = 60;
+        InventoryLevel[knownMonthsIndex] = initialInventory;
         double TotalCost = 0;
-        
-        for (int month = 0; month < currentMonthIndex; month++) {
+
+        for (int month = knownMonthsIndex; month < currentMonthIndex; month++) {
             //\/\/\/ BEGINGIN OF MONTH
             if (InventoryLevel[month] <= RealDemands.get(month).value(2) + BackOrder[month]) {
                 BackOrder[month + 1] = (RealDemands.get(month).value(2) + BackOrder[month]) - InventoryLevel[month];
@@ -982,94 +1192,46 @@ public class MainFrame extends javax.swing.JFrame {
         return TotalCost;
     }
 
-    public double estimateNextMonthDemandSeparately(int currentMonthIndex, Classifier classifer) {
-//        boolean success = false;
-
-        WekaForecaster forecaster = new WekaForecaster();
-        TSLagMaker lagMaker = forecaster.getTSLagMaker();
-
-        try {
-            forecaster.setFieldsToForecast("Demand");
-            forecaster.setCalculateConfIntervalsForForecasts(1);
-            forecaster.setBaseForecaster(classifer);
-            lagMaker.setTimeStampField("Month");
-            lagMaker.setMinLag(1);
-            lagMaker.setMaxLag(12);
-            lagMaker.setAddMonthOfYear(true);
-            lagMaker.setAddQuarterOfYear(true);
-            int knownPart = Math.max(currentMonthIndex + 1, 18);
-            forecaster.buildForecaster(new Instances(RealDemands, 0, knownPart), System.out);
-            forecaster.primeForecaster(new Instances(RealDemands, 0, currentMonthIndex + 1));
-
-            int numStepsToForecast = 1;
-            List<List<NumericPrediction>> forecast = forecaster.forecast(numStepsToForecast, System.out);
-//            List<List<NumericPrediction>> forecast=forecaster.forecast(1, new Instances(RealDemands,0,currentMonthIndex+1));
-
-            double forecastedValues[] = getPredictionForNextMonth(forecast, numStepsToForecast);
-//            success = true;
-//            System.out.println(success);
-//            System.out.println(forecastedValues[1]);
-            double rangeMidToHighConfidenceInterval = forecastedValues[0] - forecastedValues[1];
-            double offset = rangeMidToHighConfidenceInterval / 1.1;
-            return forecastedValues[0] + offset;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            String msg = ex.getMessage().toLowerCase();
-            if (msg.indexOf("not in classpath") > -1) {
-                return -1;
-            }
-        }
-
-        return -1;
-    }
-
-    private double[] getPredictionForNextMonth(List<List<NumericPrediction>> preds, int steps) {
-        double output[] = new double[3];
-
-        for (int i = 0; i < steps; i++) {
-            List<NumericPrediction> predsForTargetsAtStep = preds.get(i);
-
-            for (int j = 0; j < predsForTargetsAtStep.size(); j++) {
-                NumericPrediction p = predsForTargetsAtStep.get(j);
-                double[][] limits = p.predictionIntervals();
-                output[0] = p.predicted();
-                output[1] = limits[0][0];
-                output[2] = limits[0][1];
+    public double getSum(double input[]) {
+        double output = 0;
+        for (int i = 0; i < input.length; i++) {
+            if (input[i] >= 0) {
+                output = output + input[i];
             }
         }
         return output;
     }
-    
+
     public double getMean(double input[]) {
         double output = 0;
-        int counter=0;
+        double counter = 0;
         for (int i = 0; i < input.length; i++) {
-            if(input[i]>=0)
-            {
-                output = input[i];
-                counter=counter+1;
+            if (input[i] >= 0) {
+                output = output + input[i];
+                counter = counter + 1;
             }
         }
         return output / counter;
     }
-    
-    public int getMinIndex(double input[])
-    {
-        double minValue=input[0];
-        int minIndex=0;
-        for(int i=1;i<input.length;i++)
-        {
-            if(input[i]<minValue)
-            {
-                minValue=input[i];
-                minIndex=i;
+
+    public int getMinIndex(double input[]) {
+        for (int i = 0; i < input.length; i++) {
+            if (Double.isNaN(input[i]) == true) {
+                input[i] = Double.POSITIVE_INFINITY;
+            }
+        }
+        double minValue = Double.POSITIVE_INFINITY;
+        int minIndex = 0;
+        for (int i = 0; i < input.length; i++) {
+            if (input[i] < minValue) {
+                minValue = input[i];
+                minIndex = i;
             }
         }
         return minIndex;
     }
-    
-    public void testARMA()
-    {
+
+    public void testARMA() {
 //        TimeSeries timeSeries = TestData.debitcards;
 //        ArimaOrder modelOrder = ArimaOrder.order(0, 1, 1, 0, 1, 1);
 //        Arima model = Arima.model(timeSeries, modelOrder);
@@ -1082,12 +1244,12 @@ public class MainFrame extends javax.swing.JFrame {
 //        Forecast forecast = model.forecast(12);
 //        
 //        System.out.println(forecast);
-        
+
         Scanner ino = null;
 
         try {
             ArrayList<Double> arraylist = new ArrayList<Double>();
-            ino = new Scanner(new File(System.getProperty("user.dir") + "/data/ceshidata.txt"));
+            ino = new Scanner(new File(System.getProperty("user.dir") + "/TestArimaData.csv"));
             while (ino.hasNext()) {
                 arraylist.add(Double.parseDouble(ino.next()));
             }
@@ -1100,6 +1262,7 @@ public class MainFrame extends javax.swing.JFrame {
             ARIMA arima = new ARIMA(dataArray);
 
             int[] model = arima.getARIMAmodel();
+
             System.out.println("Best model is [p,q]=" + "[" + model[0] + " " + model[1] + "]");
             System.out.println("Predict value=" + arima.aftDeal(arima.predictValue(model[0], model[1])));
             System.out.println("Predict error=" + (arima.aftDeal(arima.predictValue(model[0], model[1])) - arraylist.get(arraylist.size() - 1)) / arraylist.get(arraylist.size() - 1) * 100 + "%");
@@ -1151,26 +1314,24 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
+    private javax.swing.JSpinner jSpinner3;
+    private javax.swing.JSpinner jSpinner4;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }

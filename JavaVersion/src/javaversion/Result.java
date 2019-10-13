@@ -13,9 +13,14 @@ public class Result implements Comparable{
     String algorithmName;
     public double totalCost=1000000000;
     public double averageInventoryCost;
+    double TotalInventoryCost;
     public double averageBackOrderCost;
+    double TotalBackOrderCost;
     public double EstimatedDemands[];
     double InventoryLevel[];
+    double EndingInventoryLevel[];
+    double BeginingInventoryLevel[];
+    double BackOrderCost[];
     double InventoryCost[];
     double OrderAmount[];
     double BackOrder[];
